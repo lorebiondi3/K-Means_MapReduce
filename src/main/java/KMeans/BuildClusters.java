@@ -48,12 +48,12 @@ public class BuildClusters {
                 }
             }
 
-            // < cluster id, point >
+            // emit the cluster the point belongs to (the closest centroid), in the form <cluster id,point>
             context.write(new Text(String.valueOf(Integer.valueOf(index))),value);
 
         }
 
-        //make sure to emit all the k clusters (if there are no points that belong to a cluster)
+        /* Make sure to emit all the k centroids (there could be clusters without any point). Emit all the k centroids with a "null" value, just to retrieve them on the reducer side */
         @Override
         protected void cleanup(Context context) throws IOException, InterruptedException {
             Configuration conf = context.getConfiguration();
@@ -80,8 +80,8 @@ public class BuildClusters {
             dimensions = conf.getInt("dimensions",2);
         }
 
-        // for each one of the k centroids, receive a list of point that belong to that cluster and one or more "null"
-        // if a centroid has associated only "null" values, it means that no point belong to that cluster: that centroid must be emitted unmodified
+        // for each one of the k centroids, receive a list of point that belong to that cluster and one or more "null" values.
+        // if a centroid has associated only "null" values, it means that no point belong to that cluster: that centroid must be emitted unmodified from the previous iteration
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
@@ -112,7 +112,7 @@ public class BuildClusters {
                 context.write(key,new Text(conf.get("m"+key)));
             }
             else{
-                //emit new centroid for this cluster
+                //emit new centroid for the "key" cluster
                 newCentroid = "";
                 for(int i=0;i<dimensions;i++){
                     if (i==0) {
