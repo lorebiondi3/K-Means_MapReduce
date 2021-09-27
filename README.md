@@ -26,7 +26,7 @@ The code reported in this repository is an Hadoop implementation of the previous
 ## Experimental analysis
 The code has been tested on two different datasets: the "iris dataset" (petalLenght-petalWidth) and a dataset of 1.000 points (in the range 0-100) generated from scratch with a python script. Both the datasets are composed by points in a two-dimensional space, in order to ease the visualization.
 
-The "iris dataset" has been tested with 5 iterations using a k value equal to 2. The algorithm starts from 2 random centroids (yellow and orange points) and generate 2 new centroid at each iteration. As we can see from the image, as the number of iterations increases, the differences between subsequent centroids is minimized.
+The "iris dataset" has been tested with 5 iterations using a k value equal to 2. The algorithm starts from 2 random centroids (yellow and orange points) and generate 2 new centroid at each iteration. As we can see from the image, as the number of iterations increases, the differences between subsequent centroids are minimized.
 
 ![iris](https://user-images.githubusercontent.com/73020009/134887759-af00103a-0322-44b1-b3a0-cd37605ab7cf.png)
 
